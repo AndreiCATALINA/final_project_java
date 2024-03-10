@@ -4,6 +4,7 @@ package com.final_project_java.controller;
 import com.final_project_java.exception.ResourceNotFoundException;
 import com.final_project_java.model.Item;
 import com.final_project_java.service.ItemService;
+import com.final_project_java.utils.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,75 +30,70 @@ public class ItemController {
 
     //GET endpoint -> http://localhost:8081/api/books
     @GetMapping
-    public ResponseEntity<List<Item>> getAllItems() {
+    public ResponseEntity<ApiResponse> getAllItems() {
         List<Item> itemsList = itemService.readAllItems();
         if (itemsList.isEmpty()) {
             throw new ResourceNotFoundException("No items found in DB");
         }
-        return new ResponseEntity<>(itemsList, HttpStatus.OK);
+        return ResponseEntity.ok(ApiResponse.success("All items list",itemsList));
     }
 
     @GetMapping("/itemById/{id}") //http://localhost:8081/api/books/bookById/id
-    public ResponseEntity<Optional<Item>> getItemById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse> getItemById(@PathVariable Long id) {
         Optional<Item> itemById = itemService.getItemById(id);
         itemById.orElseThrow(() ->
                 new ResourceNotFoundException("Item with id: " + id + " doesn't exist in DB"));
-        return new ResponseEntity<>(itemById, HttpStatus.OK);
+        return ResponseEntity.ok(ApiResponse.success("Item by id",itemById.get()));
     }
 
     @GetMapping("/itemsByName/{name}")
-    public ResponseEntity<List<Item>> getAllItemsByName(@PathVariable String name) {
+    public ResponseEntity<ApiResponse> getAllItemsByName(@PathVariable String name) {
         List<Item> items = itemService.getAllItemsByName(name);
         if (items.isEmpty()) {
             throw new ResourceNotFoundException("No items found width: " + name + " in DB");
         }
 
-        return new ResponseEntity<>(items, HttpStatus.OK);
+        return ResponseEntity.ok(ApiResponse.success("Item by name",items));
     }
 
     @GetMapping("/itemsByCategory/{category}")
-    public ResponseEntity<List<Item>> getAllItemsByCategory(@PathVariable String category) {
+    public ResponseEntity<ApiResponse> getAllItemsByCategory(@PathVariable String category) {
         List<Item> itemsByCategory = itemService.getAllItemsByCategory(category);
         if (itemsByCategory.isEmpty()) {
             throw new ResourceNotFoundException("No items found width: " + category + " in DB");
         }
-        return new ResponseEntity<>(itemsByCategory, HttpStatus.OK);
+        return ResponseEntity.ok(ApiResponse.success("Items by category",itemsByCategory));
     }
 
 
     //POST -> CREATE
     @PostMapping("/addNewItem") //http://localhost:8081/api/books/addNewBook
-    public ResponseEntity<Item> saveItem(@RequestBody Item item) {
+    public ResponseEntity<ApiResponse> saveItem(@RequestBody Item item) {
         Item newItem = itemService.saveItem(item);  //varianta 2
-        return new ResponseEntity<>(newItem, HttpStatus.OK);
+        return ResponseEntity.ok(ApiResponse.success("Add new item",newItem));
     }
 
     @PutMapping("/updateItem")  //http://localhost:8081/api/books/updateBook
-    public ResponseEntity<Item> updateItem(@RequestBody Item item) {
+    public ResponseEntity<ApiResponse> updateItem(@RequestBody Item item) {
         if(item.getId() == null){
             throw new ResourceNotFoundException("Item id is not valid");
         }
         Optional<Item> itemOptional = itemService.getItemById(item.getId());
         itemOptional.orElseThrow(()->
                 new ResourceNotFoundException("Item with id: " + item.getId() + " doesn't exist in DB"));
-        return new ResponseEntity<>(itemService.updateItem(item), HttpStatus.OK);
+        return ResponseEntity.ok(ApiResponse.success("Update item", itemService.updateItem(item)));
     }
 
     @DeleteMapping("/deleteItem/{id}")
-    public ResponseEntity<?> deleteItem(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse> deleteItem(@PathVariable Long id) {
         Optional<Item> itemOptional = itemService.getItemById(id);
         itemOptional.orElseThrow(() ->
                 new ResourceNotFoundException("Item with id: " + id + " doesn't exist in DB"));
 //        return ResponseEntity.status(HttpStatus.OK)
 //                .body("Book with id: " + id + " deleted successfully");  //Varianta 1
         itemService.deleteItemById(id);
-        return new ResponseEntity<>("Item with id: " + id + " deleted successfully", HttpStatus.OK); // varianta 2
+        return ResponseEntity.ok(ApiResponse.success("Delete item",null)); // varianta 2
 
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    //se foloseste pentru exceptii care sunt aruncate de controlere (trigger)
-    public ResponseEntity<String> handleResourceNotFoundException(ResourceNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-    }
 }
