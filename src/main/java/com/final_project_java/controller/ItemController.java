@@ -6,7 +6,6 @@ import com.final_project_java.model.Item;
 import com.final_project_java.service.ItemService;
 import com.final_project_java.utils.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,8 +47,8 @@ public class ItemController {
     }
 
     @GetMapping("/itemsByName/{name}")
-    public ResponseEntity<ApiResponse> getAllItemsByName(@PathVariable String name) {
-        List<Item> items = itemService.getAllItemsByName(name);
+    public ResponseEntity<ApiResponse> getAllItemsByTitle(@PathVariable String name) {
+        List<Item> items = itemService.getAllItemsByTitle(name);
         if (items.isEmpty()) {
             throw new ResourceNotFoundException("No items found width: " + name + " in DB");
         }
@@ -58,8 +57,8 @@ public class ItemController {
     }
 
     @GetMapping("/itemsByCategory/{category}")
-    public ResponseEntity<ApiResponse> getAllItemsByCategory(@PathVariable String category) {
-        List<Item> itemsByCategory = itemService.getAllItemsByCategory(category);
+    public ResponseEntity<ApiResponse> getAllItemsBySeverity(@PathVariable String category) {
+        List<Item> itemsByCategory = itemService.getAllItemsBySeverity(category);
         if (itemsByCategory.isEmpty()) {
             throw new ResourceNotFoundException("No items found width: " + category + " in DB");
         }

@@ -2,17 +2,17 @@ package com.final_project_java.service;
 
 
 
-import com.final_project_java.model.Customer;
+import com.final_project_java.model.User;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CustomerService {
-    List<Customer> getAllCustomers();
-    Optional<Customer> getCustomerById(Long id);
-    Customer saveCustomer(Customer customer);
-    Customer updateCustomer(Customer customer);
+    List<User> getAllCustomers();
+    Optional<User> getCustomerById(Long id);
+    User saveCustomer(User user);
+    User updateCustomer(User user);
     void deleteCustomerById(Long id);
-    List<Customer> getCustomersByName(String name);
+    List<User> getCustomersByName(String name);
 
 }

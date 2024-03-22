@@ -16,6 +16,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> { //<Entitstea
     // putem sa ne definim operatii CRUD custom
     //find all books by author
 
-    List<Item> searchItemsByName(String name);
-    List<Item> searchItemsByCategory(String category);
+    List<Item> searchItemsByTitle(String title);
+    List<Item> searchItemsBySeverity(String severity);
 }

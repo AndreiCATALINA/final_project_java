@@ -31,8 +31,8 @@ public interface ItemService {
     Item updateItem(Item item);
 
     //Custom CRUD methods defined
-    List<Item> getAllItemsByName(String name);
+    List<Item> getAllItemsByTitle(String title);
 
-    List<Item> getAllItemsByCategory(String category);
+    List<Item> getAllItemsBySeverity(String severity);
 
 }

@@ -47,12 +47,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> getAllItemsByName(String name) {
-        return itemRepository.searchItemsByName(name);
+    public List<Item> getAllItemsByTitle(String name) {
+        return itemRepository.searchItemsByTitle(name);
     }
 
     @Override
-    public List<Item> getAllItemsByCategory(String category) {
-        return itemRepository.searchItemsByCategory(category);
+    public List<Item> getAllItemsBySeverity(String category) {
+        return itemRepository.searchItemsBySeverity(category);
     }
 }

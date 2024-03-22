@@ -2,13 +2,11 @@ package com.final_project_java.controller;
 
 import com.final_project_java.dto.LoginDto;
 import com.final_project_java.dto.RegisterDto;
-import com.final_project_java.model.Customer;
+import com.final_project_java.model.User;
 import com.final_project_java.service.AuthService;
 import com.final_project_java.utils.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @CrossOrigin("http://localhost:4200")
@@ -20,13 +18,12 @@ public class AuthController {
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
-
-    //TODO: Implement forgot password
+    
     @PostMapping("/login")
     public ResponseEntity<ApiResponse> login(@RequestBody LoginDto loginDto) {
-        Customer customer = authService.login(loginDto);
+        User user = authService.login(loginDto);
 
-        return ResponseEntity.ok(ApiResponse.success("Welcome", customer));
+        return ResponseEntity.ok(ApiResponse.success("Welcome", user));
     }
 
     @PostMapping("/register")

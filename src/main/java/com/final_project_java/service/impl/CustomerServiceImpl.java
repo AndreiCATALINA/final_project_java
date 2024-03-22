@@ -1,8 +1,8 @@
 package com.final_project_java.service.impl;
 
 
-import com.final_project_java.model.Customer;
-import com.final_project_java.repository.CustomerRepository;
+import com.final_project_java.model.User;
+import com.final_project_java.repository.UserRepository;
 import com.final_project_java.service.CustomerService;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -13,46 +13,46 @@ import java.util.Optional;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    private CustomerRepository customerRepository;
+    private final UserRepository userRepository;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    public CustomerServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
-    public List<Customer> getAllCustomers() {
-        return customerRepository.findAll();
+    public List<User> getAllCustomers() {
+        return userRepository.findAll();
     }
 
     @Override
-    public Optional<Customer> getCustomerById(Long id) {
-        return customerRepository.findById(id);
+    public Optional<User> getCustomerById(Long id) {
+        return userRepository.findById(id);
     }
 
     @Override
-    public Customer saveCustomer(Customer customer) {
-        String password = BCrypt.hashpw(customer.getPassword(),BCrypt.gensalt());
-        customer.setPassword(password);
+    public User saveCustomer(User user) {
+        String password = BCrypt.hashpw(user.getPassword(),BCrypt.gensalt());
+        user.setPassword(password);
 
-        return customerRepository.save(customer);
+        return userRepository.save(user);
     }
 
     @Override
-    public Customer updateCustomer(Customer customer) {
-        String password = BCrypt.hashpw(customer.getPassword(),BCrypt.gensalt());
-        customer.setPassword(password);
+    public User updateCustomer(User user) {
+        String password = BCrypt.hashpw(user.getPassword(),BCrypt.gensalt());
+        user.setPassword(password);
 
-        return customerRepository.save(customer);
+        return userRepository.save(user);
     }
 
     @Override
     public void deleteCustomerById(Long id) {
-        customerRepository.deleteById(id);
+        userRepository.deleteById(id);
     }
 
     @Override
-    public List<Customer> getCustomersByName(String name) {
-        return customerRepository.getCustomersByName(name);
+    public List<User> getCustomersByName(String name) {
+        return userRepository.getCustomersByName(name);
     }
 
 }

@@ -1,31 +1,26 @@
 package com.final_project_java.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Data
 @Entity
-@Table(name = "orders")
-public class Order {
+@Table(name = "projects")
+public class Project {
     @Id
     @GeneratedValue
     private Long id;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date;
-    @Column(name = "order_total")
-    private double total;
-    private int quantity;
+    private String projectName;
+    private String description;
+    private double budget;
     private String status;
     //Many-to-one relationship with customer entity
-    @ManyToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    @JsonIgnoreProperties("orders")
-    private Customer customer;
+    @OneToMany(mappedBy = "project")
+    @JsonIgnoreProperties("project")
+    private List<User> users;
 
     //Many-to-many relationship with book entity
     @ManyToMany
