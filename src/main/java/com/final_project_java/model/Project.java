@@ -17,6 +17,7 @@ public class Project {
     private String description;
     private double budget;
     private String status;
+
     //Many-to-one relationship with customer entity
     @OneToMany(mappedBy = "project")
     @JsonIgnoreProperties("project")
